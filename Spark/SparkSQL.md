@@ -1,5 +1,105 @@
 # SparkSQL Recipes
 
+## Save a DataFrame to Partitioned ORC
+
+```scala
+// Import
+import org.apache.spark.sql.SaveMode
+// Create sample data
+val userDF = sql("""SELECT 1 AS id, "Jon" AS first_name, "Smight" AS last_name, CAST('1984-1203' AS DATE) AS birth_date""")
+
+// Save sample data as ORC
+userDF.write.format("orc")
+  .mode(SaveMode.Overwrite)
+  .partitionBy("birth_date")
+  .save("/resources/data/user")
+```
+
+
+
+```bash
+ls -al /resources/data/user/birth_date=1984-12-03
+```
+
+
+
+```
+-rw-r--r-- 1 root resources  458 Oct 12 18:55 part-00000-c3468a56-8a22-4fb0-8e62-8b40d5d4f947.snappy.orc
+-rw-r--r-- 1 root resources   12 Oct 12 18:55 .part-00000-c3468a56-8a22-4fb0-8e62-8b40d5d4f947.snappy.orc.crc
+```
+
+
+
+## Create a DataFrame from ORC Data
+
+```scala
+val savedDF = spark.read.format("orc").load("/resources/data/user")
+savedDF.show()
+```
+
+
+
+## Save a DataFrame to a Partitioned Avro
+
+First add following Maven dependency (check [spark-avro](https://mvnrepository.com/artifact/com.databricks/spark-avro) package in Maven for the correct version):
+
+```sclala
+com.databricks:spark-avro_2.11:4.0.0
+```
+
+
+
+```spark
+// Create sample data
+val userDF = sql("""SELECT 1 AS id, "Jon" AS first_name, "Smight" AS last_name, CAST('1984-12-03' AS DATE) AS birth_date""")
+```
+
+
+
+```scala
+// Save sample data as Avro
+import org.apache.spark.sql.SaveMode
+userDF.write.format("com.databricks.spark.avro")
+  .mode(SaveMode.Overwrite)
+  .partitionBy("birth_date")
+  .save("/resources/data/user_avro")
+```
+
+Checking the result.
+
+```bash
+ls -al /resources/data/user_avro/birth_date=1984-12-03
+```
+
+```
+-rw-r--r-- 1 root resources  244 Oct 12 19:20 part-00000-3f9d597b-b78f-4295-b224-7b827fb1c22d.avro
+-rw-r--r-- 1 root resources   12 Oct 12 19:20 .part-00000-3f9d597b-b78f-4295-b224-7b827fb1c22d.avro.crc
+```
+
+
+
+## Create a DataFrame from Avro File(s)
+
+```scala
+val savedDF = spark.read.format("com.databricks.spark.avro")
+   .load("/resources/data/user_avro")
+savedDF.show()
+```
+
+And the result:
+
+```
++---+----------+---------+----------+
+| id|first_name|last_name|birth_date|
++---+----------+---------+----------+
+|  1|       Jon|   Smight|1984-12-03|
++---+----------+---------+----------+
+```
+
+
+
+See also [DataBricks::Read Avro](https://docs.databricks.com/spark/latest/data-sources/read-avro.html)
+
 ## What is the Schema for a DataFrame?
 
 ```scala
