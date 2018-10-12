@@ -1,5 +1,11 @@
 # SparkSQL Recipes
 
+## Table of Contents
+
+[TOC]
+
+
+
 ## Save a DataFrame to Partitioned ORC
 
 ```scala
@@ -47,7 +53,7 @@ First add following Maven dependency (check [spark-avro](https://mvnrepository.c
 com.databricks:spark-avro_2.11:4.0.0
 ```
 
-
+In the above dependency `2.11` is the version of Scala and `4.0.0` is the version of the library.
 
 ```spark
 // Create sample data
@@ -99,6 +105,111 @@ And the result:
 
 
 See also [DataBricks::Read Avro](https://docs.databricks.com/spark/latest/data-sources/read-avro.html)
+
+## Create a DataFrame from XML Files
+
+You need to add following dependency (check [Maven spark-xml](https://mvnrepository.com/artifact/com.databricks/spark-xml) package for correct version):
+
+```
+com.databricks:spark-xml_2.11:0.4.1
+```
+
+
+
+### Using DataBricks Example
+
+```bash
+wget -O /resources/data/books.xml https://github.com/databricks/spark-xml/raw/master/src/test/resources/books.xml
+cat /resources/data/books.xml
+```
+
+
+
+```scala
+sql("DROP TABLE IF EXISTS books")
+sql("""
+CREATE TABLE books
+USING com.databricks.spark.xml
+OPTIONS (path "/resources/data/books.xml", rowTag "book")
+""")
+val booksDF = sql("SELECT * FROM books")
+booksDF.show()
+```
+
+
+
+### Using Random User Data
+
+
+
+```bash
+# Download random data
+wget -O /resources/data/users10.xml "https://randomuser.me/api/?format=xml&inc=name,email&results=10&seed=rufus"
+cat /resources/data/users10.xml
+```
+
+
+
+```scala
+var userDF = sqlContext.read
+  .format("com.databricks.spark.xml")
+   .option("rowTag", "user")
+   .load("/resources/data/users10.xml")
+ userDF.printSchema
+```
+
+The result is as follows:
+
+```
+userDF: org.apache.spark.sql.DataFrame = [info: struct<page: bigint, results: bigint ... 2 more fields>, results: array<struct<email:string,name:struct<first:string,last:string,title:string>>>]
+root
+ |-- info: struct (nullable = true)
+ |    |-- page: long (nullable = true)
+ |    |-- results: long (nullable = true)
+ |    |-- seed: string (nullable = true)
+ |    |-- version: double (nullable = true)
+ |-- results: array (nullable = true)
+ |    |-- element: struct (containsNull = true)
+ |    |    |-- email: string (nullable = true)
+ |    |    |-- name: struct (nullable = true)
+ |    |    |    |-- first: string (nullable = true)
+ |    |    |    |-- last: string (nullable = true)
+ |    |    |    |-- title: string (nullable = true)
+```
+
+More about [Databricks XML Library](https://github.com/databricks/spark-xml).
+
+Same with creating table against the XML file.
+
+```scala
+sql("DROP TABLE IF EXISTS users")
+sql("""
+CREATE TABLE users
+USING com.databricks.spark.xml
+OPTIONS (path "/resources/data/users10.xml", rowTag "user")
+""")
+val booksDF = sql("SELECT u.email, u.name.title, u.name.first, u.name.last FROM users LATERAl VIEW explode(results) AS u")
+booksDF.show()
+```
+
+```
++--------------------+-----+---------+----------+
+|               email|title|    first|      last|
++--------------------+-----+---------+----------+
+|vanessa.sullivan@...| miss|  vanessa|  sullivan|
+|thea.sviggum@exam...| miss|     thea|   sviggum|
+|lauren.garza@exam...|   ms|   lauren|     garza|
+|eric.daniels@exam...|   mr|     eric|   daniels|
+|حسین.سهيليراد@exa...|   mr|     حسین| سهيلي راد|
+|kathryn.soto@exam...|  mrs|  kathryn|      soto|
+|jusseline.santos@...|  mrs|jusseline|    santos|
+|aloïs.roussel@exa...|   mr|    aloïs|   roussel|
+|frens.kruidenier@...|   mr|    frens|kruidenier|
+|leana.roger@examp...| miss|    leana|     roger|
++--------------------+-----+---------+----------+
+```
+
+
 
 ## What is the Schema for a DataFrame?
 
