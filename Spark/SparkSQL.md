@@ -55,9 +55,13 @@ com.databricks:spark-avro_2.11:4.0.0
 
 In the above dependency `2.11` is the version of Scala and `4.0.0` is the version of the library.
 
-```spark
+```scala
 // Create sample data
-val userDF = sql("""SELECT 1 AS id, "Jon" AS first_name, "Smight" AS last_name, CAST('1984-12-03' AS DATE) AS birth_date""")
+val userDF = sql("""
+SELECT 1 AS id, "Jon" AS first_name, "Smight" AS last_name, CAST('1984-12-03' AS DATE) AS birth_date
+UNION
+SELECT 2 AS id, "Janett" AS first_name, "Ganguli" AS last_name, CAST('1993-04-23' AS DATE) AS birth_date
+""")
 ```
 
 
@@ -177,7 +181,10 @@ root
  |    |    |    |-- title: string (nullable = true)
 ```
 
-More about [Databricks XML Library](https://github.com/databricks/spark-xml).
+See also:
+
+* [Databricks XML Library](https://github.com/databricks/spark-xml).
+* [Databricks SparkSQL CREATE TABLE Statement](https://docs.databricks.com/spark/latest/spark-sql/language-manual/create-table.html)
 
 Same with creating table against the XML file.
 
@@ -259,6 +266,45 @@ print(userDF.schema.prettyJson)
 
 
 
+## Query CSV Data As Table
+
+```sql
+CREATE TABLE IG_DIM_PARTY
+USING CSV
+OPTIONS (
+    path "/user/ivan/party/",
+    delimiter "\t",
+    header true
+)
+```
+
+```sql
+DESCRIBE IG_LND_DIM_PARTY
+```
+
+```
++----------------------------+---------+-------+
+|col_name                    |data_type|comment|
++----------------------------+---------+-------+
+|PARTY_ID                    |string   |null   |
+|PARTY_CODE                  |string   |null   |
+|FAMILY_NAME                 |string   |null   |
+|MIDDLE_NAMES                |string   |null   |
+|GIVEN_NAME                  |string   |null   |
+|GENDER                      |string   |null   |
+|DATE_OF_BIRTH               |string   |null   |
+|NATIONALITY                 |string   |null   |
+|MARITAL_STATUS              |string   |null   |
++----------------------------+---------+-------+
+```
+
+See also:
+
+* https://github.com/databricks/spark-csv
+* https://docs.databricks.com/spark/latest/spark-sql/language-manual/create-table.html
+
+
+
 ## Build CREATE TABLE Statement
 
 Here is a sample DataFrame.
@@ -300,12 +346,13 @@ val TargetDatabase = "APP_DATA"
 val TargetTable = "USER"
 val partitionBy = List("title")
 val TempViewName = "_TMP_CREATE_TABLE_DATA_"
+val theDF = userDF
 
 
 // ==================================
 
 // Gelt a list of fields and types
-userDF.createOrReplaceTempView(TempViewName)
+theDF.createOrReplaceTempView(TempViewName)
 val schemaFields = spark.sql(s"DESCRIBE $TempViewName")
        .collect()
 spark.catalog.dropTempView(TempViewName)
@@ -329,7 +376,7 @@ val partitionByString = if (partitionBy.size > 0)  "PARTITIONED BY (" + partitio
 
 // Build final CREATE TABLE string
 print(s"""
-    |CREATE TABLE user(
+    |CREATE EXTERNAL TABLE $TargetTable (
     |$dataFieldsString
     |)
     |$partitionByString
@@ -339,7 +386,7 @@ print(s"""
 ```
 
 ```
-CREATE TABLE user(
+CREATE EXTERNAL TABLE user(
    user_id  int,
    first_name  string,
    last_name  string
@@ -347,6 +394,28 @@ CREATE TABLE user(
 PARTITIONED BY (title  string)
 STORED AS ORC
 LOCATION '/data/data_lake/USER';
+```
+
+
+
+## Use Databricks DBUtils Library
+
+Add dependency:
+
+```
+com.databricks:dbutils-api_2.11:0.0.3
+```
+
+```scala
+dbutils.fs.put("/resources/data/test.json", """
+{"string":"string1","int":1,"array":[1,2,3],"dict": {"key": "value1"}}
+{"string":"string2","int":2,"array":[2,4,6],"dict": {"key": "value2"}}
+{"string":"string3","int":3,"array":[3,6,9],"dict": {"key": "value3", "extra_key": "extra_value3"}}
+""", true)
+```
+
+```bash
+cat /resources/data/test.json
 ```
 
 
