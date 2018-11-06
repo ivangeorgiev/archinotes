@@ -190,7 +190,114 @@ while (flowFile != null) {
 
 ```
 
-#### Convert Bytes to Hex (Java)
+
+
+#### See Also
+
+- http://www.dev-garden.org/2013/04/16/java-byte-array-as-a-hex-string-the-easy-way/
+- https://stackoverflow.com/questions/9655181/how-to-convert-a-byte-array-to-a-hex-string-in-java
+- https://stackoverflow.com/questions/4895523/java-string-to-sha1
+- 
+
+**Using eval()**
+
+```javascript
+var StreamCallback =  Java.type("org.apache.nifi.processor.io.StreamCallback");
+var IOUtils = Java.type("org.apache.commons.io.IOUtils");
+var StandardCharsets = Java.type("java.nio.charset.StandardCharsets");
+var MessageDigest = Java.type("java.security.MessageDigest");
+var DatatypeConverter = Java.type("javax.xml.bind.DatatypeConverter");
+
+
+var cryptMD5 = MessageDigest.getInstance('MD5')
+var flowFile = session.get();
+
+function md5(msg) {
+    return DatatypeConverter.printHexBinary(
+       cryptMD5.digest(msg.getBytes(StandardCharsets.UTF_8))
+       );
+}
+
+while (flowFile != null) {
+    flowFile = session.write(flowFile,
+    new StreamCallback(function(inputStream, outputStream) {
+        var text = IOUtils.toString(inputStream, StandardCharsets.UTF_8)
+        var lines = text.split("\n").filter( function(line) { return line.length > 0; } )
+        
+        var fields = lines.shift().split(",");
+
+        var transformed = lines.map(function(line) {
+                var values = line.split(",")
+                eval(applyExpression)
+                return values;
+            })
+        
+        outputStream.write(
+            JSON.stringify(transformed).getBytes(StandardCharsets.UTF_8)
+        )
+    }));
+    session.transfer(flowFile, REL_SUCCESS);
+    flowFile = session.get()
+}
+```
+
+
+
+### Example: Append A Column to CSV FlowFile
+
+#### Usage
+
+* Use ExecuteScript NiFi processor
+* Set `Script Engine` to `ECMAScript`
+* Add `ColumnNameToAppend` processor property. For example:
+  `ColumnNameToAppend = filename` 
+* Add `ColumnValueToAppend` processor property. This property supports Expression Language. E.g.
+  `ColumnValueToAppend = ${filename}` 
+* Paste following code into the `Script Body` property.
+
+```javascript
+var StreamCallback =  Java.type("org.apache.nifi.processor.io.StreamCallback");
+var IOUtils = Java.type("org.apache.commons.io.IOUtils");
+var StandardCharsets = Java.type("java.nio.charset.StandardCharsets");
+
+if (ColumnValueToAppend === undefined) {
+   throw "Expected property [ColumnValueToAppend] not defined."
+}
+
+if (ColumnNameToAppend === undefined) {
+   throw "Expected property [ColumnNameToAppend] not defined."
+}
+
+var lineSeparator = "\n"
+var columnSeparator = ","
+
+var flowFile = session.get();
+
+while (flowFile != null) {
+    var newColName = ColumnNameToAppend.evaluateAttributeExpressions(flowFile).getValue()
+    var newColValue = ColumnValueToAppend.evaluateAttributeExpressions(flowFile).getValue()
+    flowFile = session.write(flowFile,
+    new StreamCallback(function(inputStream, outputStream) {
+        var text = IOUtils.toString(inputStream, StandardCharsets.UTF_8)
+        var lines = text.split(lineSeparator).filter( function(line) { return line.length > 0; } )
+        
+        outputStream.write((lines.shift() + columnSeparator + newColName + lineSeparator).getBytes(StandardCharsets.UTF_8))
+        
+        outputStream.write(
+            lines.map( function(line) {
+                return line + columnSeparator + newColValue;
+            }).join(lineSeparator).getBytes(StandardCharsets.UTF_8)
+        )
+    }));
+    session.transfer(flowFile, REL_SUCCESS);
+    flowFile = session.get()
+}
+
+```
+
+
+
+### AddOn: Convert Bytes to Hex (Java)
 
 Message digest methods operate on byte array and return byte array. Usually the required output is string, which contains hexadecimal encoding of the byte array.
 
@@ -218,11 +325,21 @@ System.out.println( javax.xml.bind.DatatypeConverter.printHexBinary( bytes ) );
 
 
 
-#### See Also
+* 
 
-* http://www.dev-garden.org/2013/04/16/java-byte-array-as-a-hex-string-the-easy-way/
-* https://stackoverflow.com/questions/9655181/how-to-convert-a-byte-array-to-a-hex-string-in-java
-* https://stackoverflow.com/questions/4895523/java-string-to-sha1
+### Log Message Using ExecuteScript
+
+```javascript
+var flowFile = session.get();
+
+while (flowFile != null) {
+   var prefix = LogPrefix.evaluateAttributeExpressions(flowFile).getValue()
+   var message = LogMessage.evaluateAttributeExpressions(flowFile).getValue()
+   log.info(message)
+   // session.transfer(flowFile, REL_SUCCESS)
+   flowFile = session.get()
+}
+```
 
 
 
