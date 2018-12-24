@@ -1,0 +1,306 @@
+
+SQL
+=====
+1. Tell me about yourself?
+2. What is difference between grouping and distinct.
+3. what is sub-query ? Can we used order by clause in subquery if not why?
+   ->No
+4. what is corelated sub-query?
+5. How you will display 5th rank holder student record ?
+5. what is join, how many join you used in your project?
+6. what is left outer join when it is usefull ?
+7. when we will use self join explain briefly with example ?
+8. If 2 table is there A and B, if A having 10 records and B having 5 records,if
+ in both table having
+   2 matching record then 
+     a. perform left join and how many record you will get ?
+     b. perform right join and how many record you will get ?
+ 9. what is DDL ?
+10. how you will add new column in a table ?
+11. how you will rename a column ?
+12. Can we use alter with modify command ?
+    ->yes
+13. If a column has data type varchar(20), how you will change it varchar(30) ?
+14. what is Rollback ? when we will use it ?
+15. what is not null and uniq explain ?
+15. how we will display all emp whose comm is null?  
+16. Do you know cluster ?
+    ->
+17. what is tuning ?
+    ->
+18. what is analytical function ? how many analytical functoin you know ?
+    ->Rank and Dense_rank
+19. what is index and how many you know ?
+20. Can be create index during run time ?
+    -> yes using execute immediate(dynamic SQL)
+21. what is cardinality ?
+22. what is explain plan ?
+23. what is union and union all ?
+24. what is difference between union and union all ?
+25. what is except ? 
+    ->
+26. FLASHBACK ?  
+27. what is difference between delete and truncate ?
+28. what is difference between drop and truncate ?
+29. how you will convert column into row ?
+    -> PIVOT & UNPIVOT
+    -> Using CONCAT
+--------------------------------------------------------------------------------
+----------------------
+DWH
+--------------------------------------------------------------------------------
+----------------------
+1. what is DWH ?
+2. what is difference between OLTP & DWH?
+3. what is fact less fact table explain with example ?
+4. what are star scheehma and snow flake scheema ?
+5. where normalization will occur in star scheema or snow flak scheema ?
+6. what is normalization n when it is usefull? how many normal form you know ?
+7. what is denormalization ?
+8. what is SCD3 Explain ? Can be create new column in SCD3 ?
+   ->No
+9. what is different between SCD1 N SCD3 ?
+10. how you will identify last updated record ?
+11. what is etl n how it is working ?
+12. what is your project n how you are working with your project using informati
+ca tool explain ?
+13. Are using ER-Diagram or Snow flake scheema both in your project ?
+    ->
+--------------------------------------------------------------------------------
+-----------------------
+Database Testing
+--------------------------------------------------------------------------------
+-----------------------
+1. what is DB Testing explain?
+2. Did you do performance testing ?
+3. Explain Different type of database testing which you know ?
+4. How you are doing DB Testing in your project explain ?
+5. How you will test the data from source to target ?
+6. what is data check ?
+7. how you will ensure data which you are loading in target that is accurate ?
+--------------------------------------------------------------------------------
+-----------------------
+Manual Testing
+--------------------------------------------------------------------------------
+-----------------------
+1. what is STLC Explain ?
+2. what is SDLC explain ?
+--------------------------------------------------------------------------------
+-----------------------
+Unix
+--------------------------------------------------------------------------------
+-----------------------
+1. How you will delete data from a given file ?
+2. How you will search a pattern in file ?
+3. Are you good in unix command ?
+4. Do you know unix scripting ?
+--------------------------------------------------------------------------------
+-----------------------
+Do you have any question ?
+Final round questions(10)
+--------------------------
+Written test questions
+--------------------------
+ 1. What is your openion as a person or profesional explain?
+ 2. Explain about your family and how your family value saved your character?
+ 3. Sometimes we are taking desion to back in life did you taken any decision re
+cently to back explain?
+ 4. Explain how you have work for your project under presure and what difficulty
+ you got?
+ 5. How you will contribute for the growth for your company?
+ 6. Are you happy with your present company or not? Explain Why?
+ 7. Why you want to change your job?
+ 8. 
+ 9.
+10.
+Manager round
+--------------------------------------------------------------------------------
+-----------------------
+About Organization
+ 1. Explain breifly about your Organization ?
+ 2. This is US based company ?
+ 3. Where exactly this company is located ?
+ 4. How many people is sitting over there ?
+ 5. Which kind of services is providing by your company ?
+ 6. Who and all customer are for your company list there name.
+ 7. This is service based or product based company ?
+  
+About Project & custombers
+ 8. For which customer you are working currently in your project?
+ 9. what is full form of CSV ?
+10. what is application of CSV explain breifly?
+11. when you are login your project what you will get?
+12. After login your project how you will fetch information of all the customer?
+13. How prescription is working exactly?
+14. which kind of data you are checking explain?
+15. what is test data how you are preparing test data give example for current p
+roject?
+16  what is UI screen explain some example of UI screen?
+17. which kind of application you are testing in your project for front end upda
+tes, list
+    all the important functionality for front end updates, how exactly it will w
+ork?
+18. IS this project is web based application or any other apllication?
+19. you are working for US client can you tell me how many digit are using in US
+ for phone_num, pincode?
+20. how exactly you are managing area code or how many digit it will occurs?
+21. what is called pincode in US?
+22. what is regresion testing?
+23. what is smoke testing?
+24. what is what is tracibility matrix?
+25. what is join explain?
+26. who is end users explain?
+26. Based on given table write SQL query?
+27. What is severity and priority and what is difference between both?
+28. How you will identify measure or critical bug explain with suitable example?
+--------------------------------------------------------------------------------
+----------------------------
+DWH Questions
+ 1. Tell me about yourself?
+ 2. What is normalization and what is advantage of it, how many normal form you 
+know explain?
+ 3. What is denormalization explain
+ 4. What is difference between normalization and denrmalization?
+ 5. Explain SCD1,SCD2,SCD3?
+ 6. what is star scheema and snow flake scheema?
+ 7. what is fact and dimension explain?
+ 8. What is ETL explain?
+ 9. what is your project explain?
+10. what is staging area?
+11. Which delemeter you are using in ETL tool?
+12. what is your role and responsibility in current project?
+SQL Questions
+--------------
+1. What is join? Explain different type of join?
+2. Based on given table write SQL query using inner,outer or self join?
+3. In a column 5 record is there, out of 5 records in 4 places some value is the
+re and last record is null.
+   How you will calculate avg value for this column.
+4. Write a query to display top 2 max sal in a table?
+5. what is union & union all? 
+6. What is format of test case? 
+HR Round
+---------
+1. Breifly explain about your family, education and work experience?
+2. When you got last time increment?
+3. Which all kind of work you will do for company if I will hire you?
+4. What is your notice period and is it negotiable?
+5. why you want to change your company?
+6. what is current CTC and how much your expectation, is it negotiable?
+Second Round
+-------------
+ 1. Tell me about yourself?
+ 2. what is your role and responsibility in current project?
+ 3. what is your total experience and from how long you are working for Database
+ Testing?
+ 4. what is test case format and how you are managing it using tool or excell sh
+eet?
+ 5. what is join explain all type of join which you know?
+ 6. Write the syntax for left, right or full outer join?
+ 7. what is self join explain with example?
+ 8. using 2 table(given with record) use join and display the emp who are gettin
+g max sal 
+    and there all information?
+ 9.  what is STLC explain breifly all phases of STLC?
+10. what is test plan did you write test plan?
+11. Explain all phase of test plan?
+12. What is retesting or regresion testing explain?
+13. what is UAT-Testing have you worked on UAT-Testing?
+14. What is severity and priority, who will desides severity and priority?
+15. how you will identify severity as critical,major and minor take one example 
+and explain it?
+16. what is database testing how you are doing explain?
+UNIX
+--------------
+1. How good u are in unix?
+2. Do you know unix cammand and unix scripting properly?
+3. How many method you know to execute shell scripting and which and all explain
+?
+4. How you will search a pattern in a file explain with proper syntax?
+5. Befor executing a script which and all set up you will do?
+6. I have multiple command to execute how exactly you will follow to execute all
+ the commands?
+--------------------
+DWH Questions
+ 1. Tell me about yourself?
+ 2. What is your role and responsibility in current project?
+ 3. what is DWH give exact definition?
+ 4. What is Normalization and what is its advantage, how many normal form you kn
+ow?
+ 5. What is Denormalization when it is usefull explain?
+ 6. What is difference between normalization and denormalization?
+ 7. what is rules of Bill Imon and Rophal kingball explain?
+ 8. what is subject oriented,non volatile,timely varient and integrated take exa
+mple from your project 
+    and explain each term using your project where exactly each will come?
+ 9. what is star scheema and snow flake scheema explain?
+10. what is reporting and analysis and how you are doing this explain?
+11. what is key business decision?
+SQL Question
+-------------
+ 1. what is join explain which you know?
+ 2. what is grouping and distinct explain?
+ 3. Explain all string function which you know?
+ 4. write a query to display the emp name which name is having exactly 4 char?
+ 5. Without using length function display the emp name which name is having exac
+tly 4 char?
+ 6. How many date function you know explain?
+ 7. write a query to display first max sal?
+ 8. write a query to display second max sal?
+ 9. Follow the 2 tables, one table has record and other is truncated(there is kn
+ow record) use join
+    and display results?
+10. Can we convert unique column to NOTT NULL if yes how and if not why?
+11. What is difference between delete,truncate and drop explain?
+12. Based on given table write SQL query?(For different scenario's) 
+    lots of question given to write inner and outer join.
+13. How you will display last 10 days updated record in a table?
+14. How you will display last 10 record in a table?
+15. what is co-related subquery how you display 2nd max salary using co-related 
+sub-query?
+16. what is union and union all?
+Infomatic Question
+-------------------
+1. Explain how informatica is usefull for testing?
+2. Explain breifly about ETL process?
+3. What is the major component of informatica explain?
+4. what is difference between maplate desinger or mapping desinger explain?
+5. what is mapping how you are doing it?
+6. where you are writing test case for DB Testing and how you are executing it?
+7. where you will see bugs after executing test case how you will manage it?
+8. What is session log how it is useful explain properly?
+9. what is workflow manager?
+Project Question
+-------------------
+1. For which project you are working currently explain and who is customer
+   for your project?
+2. Do you interact with customer?
+3. what difficulties you faced during ETL testing in your project how did you ov
+ercome?
+4. Which and all bugs you recently got while perfoming ETL testing give some exa
+mple?
+5. Did you involved in report testing, how you are doing report teting explain?
+6. what is DB Testing and how you are doing this explain?
+.       in one col some records will be null how will you replace this with unk?
+2.       one col is having char and no.s(eg.mamatha9) how to fetch only char. i.
+e mamatha
+3.       how many fact table can a dimension have?
+4.       100 rec in table A and 50 records in table B no of records for IJ,OJ,LO
+J.ROJ
+5.       olap is dabase or dataware house?
+6.       what is fact and dimention table?
+7.       there are 5 col table A and 3 col in table B how to fetch 2 col from A 
+and 1 col from table B?
+8.       what is the diff bet union and unionall?
+9.       what is the diff bet minus and minusall?
+10.     how to fetch duplicate records?
+1. How to find employee start date and end date from employee table?
+2. How to delete duplicate records from table?
+3. What is top down and bottom up approach in DW housing?
+4. How to test data size in DB Testing?
+5. How to get last 10 days current updated data from a table?
+6. what is difference between join and union?  
+1) AFTER U CREATE A REPORT USING bi TOOL ,THE REPORT IS ACCURATE OR NOT?
+2) ARE YOU READY TO WORK ON MANUAL TESTING?
+3)COMPANY DETAILS AND LOCATION OF THE COMPANY?
+4)EXPLAIN PROJECT BRIEFLY
